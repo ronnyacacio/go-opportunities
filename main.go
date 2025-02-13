@@ -1,16 +1,22 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"github.com/ronnyacacio/go-opportunities/config"
+	"github.com/ronnyacacio/go-opportunities/routes"
+)
+
+var (
+	logger *config.Logger
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	logger = config.GetLogger("main")
 
-	r.Run()
+	err := config.Init()
+	if err != nil {
+		logger.Error("Erro")
+		return
+	}
+
+	routes.Initialize()
 }
